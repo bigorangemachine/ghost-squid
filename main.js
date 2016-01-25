@@ -87,7 +87,7 @@ var doc_root='',
 // \\ ARGUMENTS/PARAMETERS & SAFE USAGE
 
 var config=require('./jspkg/configurator')(process, fs, _, utils, root_params, version_obj),
-    passive_settings=require('./jspkg/step-passive/settings__passive')(config, utils);
+    passive_settings=require('./jspkg/step-base/settings__base')(config, utils);
 doc_root=root_params.doc_root;
 if(!config || config.db.type.toLowerCase()!=='mysql'){console.error('ONLY DEVELOPED FOR MYSQL');process.exit();}
 
@@ -155,12 +155,11 @@ var rootCon=console,
             var cleaned_qs=querystring.stringify(qry_obj);
 //console.log("(allow_url?uri_out:'') ",(allow_url?uri_out:''),"\n",'cleaned_qs ',cleaned_qs);
             uri_out=(utils.basic_str(cleaned_qs)?uri_out+'?'+cleaned_qs:uri_out);
-if(uri_out.indexOf('/ipad')!==-1 || uri_out.indexOf('/tablets')!==-1){console.log('====== 1 off debug (iPad/tablets)! ',"\nuri:",uri,"\nuri_out:",uri_out);}//there is a weird issue with how mboility-tablets do their links (relative parent directory) Creates issues :/
             return (allow_url?uri_out:false);
         }
     }}),
     step_configs={
-        'passive': require('./jspkg/step-passive/cronStep__passive')({//required shared objects
+        'passive': require('./jspkg/step-base/cronStep__base')({//required shared objects
                 'process': process,
                 '_': _,
                 'JSON': JSON,
